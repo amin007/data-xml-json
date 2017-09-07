@@ -39,7 +39,7 @@ class Dataxml extends \Aplikasi\Kitab\Kawal
 			# 1. mula semak dalam pangkalan data
 			$this->papar->dataCantum['koleksi'] = $this->tanya->//cariSql
 				cariSemuaData
-				($this->papar->_jadual, $this->tanya->medanCari($cariID), 
+				($this->papar->_jadual, $this->tanya->medanCari2($cariID), 
 				$cari, $susun = null);
 		}
 		else
@@ -48,12 +48,13 @@ class Dataxml extends \Aplikasi\Kitab\Kawal
 			$this->papar->_jadual = $jadual;
 		}
 
-		# isytihar pemboleubah # creating object of SimpleXMLElement
-		$xml_user_info = new \SimpleXMLElement("<?xml version=\"1.0\"?><emsic2008></emsic2008>");
-		//$this->debug($this->papar->akaun, $this->papar->carian); # semak data
+		//$this->debug($this->papar->dataCantum, $this->papar->carian); # semak data
 
+		# isytihar pemboleubah # creating object of SimpleXMLElement
+		//$xml_user_info = new \SimpleXMLElement("xml version=\"1.0\"<emsic2008></emsic2008>");
+		$xml_user_info = new \SimpleXMLElement("<?xml version=\"1.0\"?><emcpa2009></emcpa2009>");
 		# pergi papar kandungan
-		$this->tanya->tukar_data_xml($this->papar->dataCantum,$xml_user_info);
+		$this->tanya->tukar_data_xml($this->papar->dataCantum,$xml_user_info);//*/
 	}
 #---------------------------------------------------------------------------------------------------
 	public function cetakInvois($jadual = null, $cariID = null) 
@@ -90,11 +91,11 @@ class Dataxml extends \Aplikasi\Kitab\Kawal
 		//*/
 	}
 #---------------------------------------------------------------------------------------------------
-	private function debug($paparAkaun = null, $paparCarian = null) 
+	private function debug($paparData = null, $paparCarian = null) 
 	{
-		// $this->debug($this->papar->akaun, $this->papar->carian) # semak data
+		// $this->debug($this->papar->dataCantum, $this->papar->carian) # semak data
 		echo '<pre>'; 
-		echo '$this->papar->akaun:<br>'; print_r($paparAkaun);
+		echo '$this->papar->dataCantum:<br>'; print_r($paparData);
 		echo '<br>$this->papar->carian:'; print_r($paparCarian);
 		echo '</pre>';
 	}
