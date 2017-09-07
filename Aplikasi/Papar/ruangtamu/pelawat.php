@@ -10,8 +10,9 @@
 <?php
 function butangHantar($_jadual = null, $cariID = 'paid')
 {
-	$_jadual = 'kursus_php'; 
-	$_jadual = 'msic2008'; 
+	$_jadual = 'kursus_php';
+	$_jadual = 'msic2008';
+	$_jadual = 'mcpa2009_tr2015';
 	//$cetakXml = URL . 'dataxml/papar/' . $_jadual . '/' . $cariID;
 	$cetakXml = URL . 'dataxml/paparXml/' . $_jadual . '/' . $cariID;
 	$cetakJson = URL . 'datajson/papar/' . $_jadual . '/' . $cariID;
