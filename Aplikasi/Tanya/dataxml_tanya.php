@@ -236,6 +236,23 @@ class Dataxml_Tanya extends \Aplikasi\Kitab\Tanya
 		return $senaraiMedan;
 	}
 #------------------------------------------------------------------------------------------------------------------
+	public function medanCari2($cariID) 
+	{ 
+		# Set pemboleubah untuk sql
+        $senaraiMedan = ''
+			. 'msic,kod_produk,keterangan,'
+			. ' concat_ws("-",' . "\r"
+			. ' 	concat_ws("","",msic),' . "\r"
+			. ' 	concat_ws("","",p),' . "\r"
+			. ' 	concat_ws("","",a)' . "\r"
+ 			. ' ) as jenis,'
+			. 'mcpa2005,unit,code'
+			. '';
+
+		# pulangkan pemboleubah
+		return $senaraiMedan;
+	}
+#------------------------------------------------------------------------------------------------------------------
 	public function tukar_data_xml($dataCantum,$xml_user_info)
 	{
 		# function call to convert array to xml
@@ -243,7 +260,8 @@ class Dataxml_Tanya extends \Aplikasi\Kitab\Tanya
 		$xmlData->array_to_xml($dataCantum,$xml_user_info);
 
 		# saving generated xml file
-		$namafail = 'sumber/fail/xml/emsic2008.xml';
+		//$namafail = 'sumber/fail/xml/emsic2008.xml';
+		$namafail = 'sumber/fail/xml/emcpa2009.xml';
 		$xml_file = $xml_user_info->asXML($namafail);
 		//$xml_file = $xml_user_info->asXML();
 
