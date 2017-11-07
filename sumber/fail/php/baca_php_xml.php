@@ -4,10 +4,12 @@
 # http://snipplr.com/view/3491/convert-php-array-to-xml-or-simple-xml-object-if-you-wish/
 $pusing = array('01','02','03','04','05','06',
 '07','08','09','10','11','12');
+$year = 2017;
 
 foreach ($pusing as $bln):
 	//$setahun = 'http://www.e-solat.gov.my/web/waktusolat.php?zone=JHR04&state=JOHOR&year=2017&jenis=year&bulan=' . $bln . '&LG=BM';
-	$setahun = 'http://www.e-solat.gov.my/web/muatturun.php?zone=JHR04&state=JOHOR&jenis=year&lang=my&year=2017&bulan=' . $bln . '';
+	$setahun = 'http://www.e-solat.gov.my/web/muatturun.php?zone=JHR04&state=JOHOR&jenis=year&lang=my&year='
+		. $year . '&bulan=' . $bln . '';
 	$htmlContent = file_get_contents($setahun);
 
 	$DOM = new DOMDocument();
@@ -36,24 +38,33 @@ foreach ($pusing as $bln):
 			//echo '<hr>' . $j . '[' . $i++ . ']='
 			//. trim($sNodeDetail->textContent);
 			if ( !in_array(trim($sNodeDetail->textContent),$buangData) )
-				$dataJadual[$bln][$j][$senaraiTajuk[$i++]] = trim($sNodeDetail->textContent);
-			$i = ($i == 9) ? 0 : $i++;
-			$j = $i % count($senaraiTajuk) == 0 ? $j + 1 : $j;
+			{
+				if ($senaraiTajuk[$i] == 'Tarikh') : # tambah tahun pada tarikh
+					$dataJadual[trim($j.$bln)][$senaraiTajuk[$i++]] = 
+					trim($sNodeDetail->textContent) . ' ' . $year;
+				else: 
+					$dataJadual[trim($j.$bln)][$senaraiTajuk[$i++]] = 
+					trim($sNodeDetail->textContent);
+				endif;
+			}
 		endif;
+		$i = ($i == 9) ? 0 : $i++;
+		$j = $i % count($senaraiTajuk) == 0 ? $j + 1 : $j;
 	}
-	//$dataCantum = array_merge($tajuk, $dataJadual);
-endforeach;
+	endforeach;
 
-	echo '<pre>';
+	$dataCantum = array_merge($tajuk, $dataJadual);
+
+	//echo '<pre>';
 	//echo 'tajuk->';print_r($tajuk);
-	echo '<hr>data->';print_r($dataJadual);
+	//echo '<hr>data->';print_r($dataJadual);
 	//echo '<pre>dataCantum->';print_r($dataCantum);
-	//*/
 
+	buatfailxml($dataCantum, $year);
 
-function buatfailxml($dataCantum)
+function buatfailxml($dataCantum, $year)
 {
-	/*# creating object of SimpleXMLElement
+	# creating object of SimpleXMLElement
 	$xml_user_info = new SimpleXMLElement("<?xml version=\"1.0\"?><waktu_solat></waktu_solat>");
 
 	# function call to convert array to xml
@@ -61,14 +72,14 @@ function buatfailxml($dataCantum)
 	array_to_xml($dataCantum,$xml_user_info);
 
 	# saving generated xml file
-	$namafail = 'waktu_solat_bulan_' . $bln . '.xml';
+	$namafail = 'waktu_solat_' . $year . '.xml';
 	$xml_file = $xml_user_info->asXML($namafail);
 	//$xml_file = $xml_user_info->asXML();
 
 	# success and error message based on xml creation
 	if($xml_file)
 	{
-		echo 'XML file have been generated successfully.'
+		echo 'XML file have been generated successfully. '
 		. '<a target="_blank" href="' . $namafail . '">Click here</a>';
 		//echo $xml_file;
 	}
@@ -76,5 +87,5 @@ function buatfailxml($dataCantum)
 	{
 		echo 'XML file generation error.';
 	}
-	//*/	
+	//*/
 }
