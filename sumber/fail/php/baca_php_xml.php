@@ -39,13 +39,11 @@ foreach ($pusing as $bln):
 			//. trim($sNodeDetail->textContent);
 			if ( !in_array(trim($sNodeDetail->textContent),$buangData) )
 			{
-				if ($senaraiTajuk[$i] == 'Tarikh') : # tambah tahun pada tarikh
-					$dataJadual[trim($j.$bln)][$senaraiTajuk[$i++]] = 
-					trim($sNodeDetail->textContent) . ' ' . $year;
-				else: 
-					$dataJadual[trim($j.$bln)][$senaraiTajuk[$i++]] = 
-					trim($sNodeDetail->textContent);
-				endif;
+				$dataJadual[trim($j.$bln)][$senaraiTajuk[$i]] = 
+					($senaraiTajuk[$i] == 'Tarikh') ? # tambah tahun pada tarikh
+					trim($sNodeDetail->textContent) . ' ' . $year
+					: trim($sNodeDetail->textContent);
+				$i++;
 			}
 		endif;
 		$i = ($i == 9) ? 0 : $i++;
@@ -56,9 +54,9 @@ foreach ($pusing as $bln):
 	$dataCantum = array_merge($tajuk, $dataJadual);
 
 	//echo '<pre>';
-	//echo 'tajuk->';print_r($tajuk);
-	//echo '<hr>data->';print_r($dataJadual);
-	//echo '<pre>dataCantum->';print_r($dataCantum);
+	//echo 'tajuk->'; print_r($tajuk);
+	//echo '<hr>data->'; print_r($dataJadual);
+	//echo '<pre>dataCantum->'; print_r($dataCantum);
 
 	buatfailxml($dataCantum, $year);
 
